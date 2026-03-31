@@ -3,50 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tapsworth</title>
+    <title>Tapsworth — Mechanical keyboard sounds for every keystroke</title>
+    <meta name="description" content="Tapsworth plays realistic mechanical keyboard sounds on every keystroke, system-wide on your Mac. 13 switch types, haptic feedback, menu bar controls.">
+    <meta property="og:title" content="Tapsworth">
+    <meta property="og:description" content="Mechanical keyboard sounds for every keystroke on your Mac.">
+    <meta property="og:image" content="app-icon.png">
+    <link rel="icon" href="app-icon.png" type="image/png">
     <style>
+        :root {
+            --bg: #0d0d1a;
+            --bg2: #141428;
+            --bg3: #1e1e3a;
+            --purple: #7c5cfc;
+            --purple-light: #a78bfa;
+            --purple-glow: rgba(124, 92, 252, 0.15);
+            --gold: #f0c040;
+            --text: #e8e8f0;
+            --text2: #9898b0;
+            --text3: #606080;
+            --card: #181830;
+            --card-border: #2a2a4a;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Helvetica Neue', sans-serif;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 100px 24px 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--purple-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-icon {
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 20px 60px rgba(124, 92, 252, 0.3), 0 0 0 1px rgba(255,255,255,0.05);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, var(--purple-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .tagline {
+            font-size: 1.35rem;
+            color: var(--text2);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+        }
+
+        .cta-group {
             display: flex;
+            gap: 16px;
             justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            border-radius: 14px;
+            background: var(--purple);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            box-shadow: 0 8px 30px rgba(124, 92, 252, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #6a4ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(124, 92, 252, 0.5);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            border-radius: 14px;
+            background: var(--bg3);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 1px solid var(--card-border);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #2a2a50;
+            transform: translateY(-2px);
+        }
+
+        .hero-meta {
+            font-size: 0.85rem;
+            color: var(--text3);
+        }
+
+        /* Badges */
+        .badges {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 24px 60px;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text2);
+        }
+
+        .badge-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Features */
+        .features {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(124, 92, 252, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+
+        /* Switch Types */
+        .switches {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            text-align: center;
+        }
+
+        .switches h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .switches .subtitle {
+            color: var(--text2);
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+        }
+
+        .switch-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .switch-pill {
+            padding: 10px 20px;
+            border-radius: 100px;
+            background: var(--bg3);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .switch-pill:hover {
+            border-color: var(--purple);
+            background: rgba(124, 92, 252, 0.1);
+            color: var(--purple-light);
+        }
+
+        /* Requirements */
+        .requirements {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            text-align: center;
+        }
+
+        .requirements h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .req-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             align-items: center;
         }
-        .container {
+
+        .req-item {
+            font-size: 0.95rem;
+            color: var(--text2);
+        }
+
+        /* Footer */
+        footer {
             text-align: center;
-            max-width: 600px;
-            padding: 40px 20px;
+            padding: 40px 24px;
+            border-top: 1px solid var(--card-border);
         }
-        .icon { width: 120px; height: 120px; border-radius: 24px; margin-bottom: 24px; }
-        h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
-        .tagline { font-size: 1.1rem; color: #999; margin-bottom: 40px; }
-        .links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-        .links a {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 12px;
-            background: #2a2a4a;
-            color: #c0c0ff;
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text2);
             text-decoration: none;
-            font-weight: 500;
-            transition: background 0.2s;
+            font-size: 0.9rem;
+            transition: color 0.2s;
         }
-        .links a:hover { background: #3a3a6a; }
-        footer { margin-top: 60px; font-size: 0.85rem; color: #666; }
+
+        .footer-links a:hover {
+            color: var(--purple-light);
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: var(--text3);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .hero { padding: 60px 20px 50px; }
+            .hero h1 { font-size: 2.4rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero-icon { width: 100px; height: 100px; border-radius: 24px; }
+            .features { grid-template-columns: 1fr; }
+            .badges { gap: 16px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+        <img src="app-icon.png" alt="Tapsworth icon" class="hero-icon">
         <h1>Tapsworth</h1>
-        <p class="tagline">Mechanical keyboard sounds for every keystroke</p>
-        <div class="links">
-            <a href="https://github.com/ChathushkaRodrigo/tapsworth-privacy/blob/main/Privacy.md">Privacy Policy</a>
-            <a href="https://github.com/ChathushkaRodrigo/tapsworth-privacy/blob/main/Support.md">Support</a>
+        <p class="tagline">Mechanical keyboard sounds for every keystroke on your Mac.</p>
+        <div class="cta-group">
+            <a href="#" class="btn-primary">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                Download for Mac
+            </a>
+            <a href="https://github.com/ChathushkaRodrigo/tapsworth-privacy" class="btn-secondary">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
-        <footer>&copy; 2026 Chathushka Rodrigo. All rights reserved.</footer>
-    </div>
+        <p class="hero-meta">macOS 13+ &middot; Intel & Apple Silicon &middot; Free</p>
+    </section>
+
+    <!-- Badges -->
+    <section class="badges">
+        <div class="badge"><span class="badge-icon">&#9989;</span> System-wide — works in every app</div>
+        <div class="badge"><span class="badge-icon">&#127929;</span> 13 switch sounds</div>
+        <div class="badge"><span class="badge-icon">&#128274;</span> Zero data collection</div>
+        <div class="badge"><span class="badge-icon">&#9889;</span> Lightweight</div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="feature-card">
+            <span class="feature-icon">&#9000;&#65039;</span>
+            <h3>13 Authentic Switches</h3>
+            <p>From the iconic MX Blue click to the smooth Topre thock — each switch type features multiple sound variations for a natural, realistic feel.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">&#128204;</span>
+            <h3>Menu Bar Controls</h3>
+            <p>Toggle sounds on/off and switch keyboard types right from the menu bar. Quick keyboard shortcuts included. No clutter.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">&#128171;</span>
+            <h3>Haptic Feedback</h3>
+            <p>Every keystroke delivers a subtle physical tap through your MacBook trackpad — the closest thing to a real mechanical keyboard.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">&#128274;</span>
+            <h3>Private by Design</h3>
+            <p>Tapsworth never records, stores, or transmits what you type. No network access, no analytics, no data collection. Period.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">&#127760;</span>
+            <h3>System-Wide</h3>
+            <p>Works in every app — Xcode, Safari, Slack, Notes, Terminal, VS Code. Every keystroke, everywhere.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">&#9889;</span>
+            <h3>Lightweight</h3>
+            <p>Minimal CPU and memory footprint. Runs silently in the background until you start typing. Universal binary for Intel and Apple Silicon.</p>
+        </div>
+    </section>
+
+    <!-- Switch Types -->
+    <section class="switches">
+        <h2>Pick Your Sound</h2>
+        <p class="subtitle">13 real mechanical keyboard switch types to choose from.</p>
+        <div class="switch-grid">
+            <span class="switch-pill">MX Blue</span>
+            <span class="switch-pill">MX Brown</span>
+            <span class="switch-pill">MX Black</span>
+            <span class="switch-pill">Holy Panda</span>
+            <span class="switch-pill">Alpaca</span>
+            <span class="switch-pill">Cream</span>
+            <span class="switch-pill">Box Navy</span>
+            <span class="switch-pill">Buckling Spring</span>
+            <span class="switch-pill">Topre</span>
+            <span class="switch-pill">Blue Alps</span>
+            <span class="switch-pill">Turquoise</span>
+            <span class="switch-pill">Black Ink</span>
+            <span class="switch-pill">Red Ink</span>
+        </div>
+    </section>
+
+    <!-- Requirements -->
+    <section class="requirements">
+        <h2>Requirements</h2>
+        <div class="req-list">
+            <span class="req-item">macOS 13.0 (Ventura) or later</span>
+            <span class="req-item">Accessibility permission (prompted on first launch)</span>
+            <span class="req-item">Works on Intel and Apple Silicon Macs</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="support.html">Support</a>
+            <a href="https://github.com/ChathushkaRodrigo/tapsworth-privacy">GitHub</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Chathushka Rodrigo. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
